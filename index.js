@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true, limit: "20kb" }));
 app.post("/send-email", (req,res) => {
     const {name, phone, email, numberOfMembers, selectedPackage} = req.body
 
-    if(!username && !email && !phone){
+    if(!name && !email && !phone){
         return res.status(500).json({message: "All feilds are our required"})
     }
 
@@ -77,7 +77,7 @@ app.post("/send-email", (req,res) => {
 app.put("/send-email", (req,res) => {
   const {name, phone, email, numberOfMembers, selectedPackage} = req.body
 
-  if(!username && !email && !phone){
+  if(!name && !email && !phone){
       return res.status(500).json({message: "All feilds are our required"})
   }
 
