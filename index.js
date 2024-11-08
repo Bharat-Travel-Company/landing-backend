@@ -14,7 +14,7 @@ app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ extended: true, limit: "20kb" }));
 
 app.post("/send-email", (req,res) => {
-    const {name, phone, email, numberOfMembers, selectedPackage} = req.body
+    const {name, phone, email, numberOfMembers, selectedPackage, specialReq} = req.body
 
     if(!name && !email && !phone){
         return res.status(500).json({message: "All feilds are our required"})
@@ -55,6 +55,10 @@ app.post("/send-email", (req,res) => {
           <td>Destination</td>
           <td>${selectedPackage}</td>
         </tr>
+        <tr>
+          <td>Special Requirements</td>
+          <td>${specialReq}</td>
+        </tr>
       </table>
     `;
       const mailOptions = {
@@ -75,7 +79,7 @@ app.post("/send-email", (req,res) => {
 
 
 app.put("/send-email", (req,res) => {
-  const {name, phone, email, numberOfMembers, selectedPackage} = req.body
+  const {name, phone, email, numberOfMembers, selectedPackage, specialReq} = req.body
 
   if(!name && !email && !phone){
       return res.status(500).json({message: "All feilds are our required"})
@@ -116,6 +120,10 @@ app.put("/send-email", (req,res) => {
         <td>Destination</td>
         <td>${selectedPackage}</td>
       </tr>
+      <tr>
+          <td>Special Requirements</td>
+          <td>${specialReq}</td>
+        </tr>
     </table>
   `;
       const mailOptions = {
