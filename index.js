@@ -23,8 +23,8 @@ app.post("/send-email", (req,res) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-          user: `${process.env.USER}`,
-          pass: `${process.env.AUTH}`,
+          user: 'query.connecttrip@gmail.com',
+          pass: 'kfxh qxuc llvs uyde',
         },
       });
 
@@ -62,8 +62,8 @@ app.post("/send-email", (req,res) => {
       </table>
     `;
       const mailOptions = {
-        from: 'jatinvashishtha053@gmail.com',
-        to: 'jatinvashishtha053@gmail.com',
+        from: 'query.connecttrip@gmail.com',
+        to: 'query.connecttrip@gmail.com',
         subject: `Contact form submission from ${name}`,
         html: emailBody,
       };
@@ -88,8 +88,8 @@ app.put("/send-email", (req,res) => {
   const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: `${process.env.USER}`,
-        pass: `${process.env.AUTH}`,
+        user: 'query.connecttrip@gmail.com',
+        pass: 'kfxh qxuc llvs uyde',
       },
     });
 
@@ -127,8 +127,8 @@ app.put("/send-email", (req,res) => {
     </table>
   `;
       const mailOptions = {
-        from: 'jatinvashishtha053@gmail.com',
-        to: 'jatinvashishtha053@gmail.com',
+        from: 'query.connecttrip@gmail.com',
+        to: 'query.connecttrip@gmail.com',
         subject: `Contact form submission from ${name}`,
         html: emailBody,
       };
