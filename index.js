@@ -2,7 +2,21 @@ import express from "express";
 import cors from "cors";
 import nodemailer from "nodemailer"
 import dotenv from "dotenv"
+import mongoose from "mongoose";
+import Form from "./dbSchema.js";
+
 dotenv.config()
+
+// Database Connection
+try {
+    mongoose.connect(`${process.env.dbUrl}/${process.env.dbName}`)
+    // console.log("Database Connected Successfully")
+} catch (error) {
+    res.status(500).send({message:"Internal Server Error",
+        error:error.message
+        })
+    // console.log(error)
+}
 
 const app = express()
 
@@ -13,12 +27,25 @@ app.use(cors({
 app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ extended: true, limit: "20kb" }));
 
-app.post("/send-email", (req,res) => {
+app.post("/send-email/userDetails", async (req,res) => {
     const {name, phone, email, numberOfMembers, selectedPackage} = req.body
 
     if(!name && !email && !phone){
         return res.status(500).json({message: "All feilds are our required"})
     }
+
+    try {
+      // Check if email and phone number already exists
+      const existingUser = await Form.findOne({email, phone });
+      if(existingUser){
+        return res.status(400).json({
+          message: "This email and phone number already exist. Please use different combination."
+        });
+      }
+
+      // Save data to the database
+        const formData = new Form({ name, phone, email, numberOfMembers, selectedPackage });
+        await formData.save();
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -70,6 +97,12 @@ app.post("/send-email", (req,res) => {
         }
         res.status(200).json({message: "Form submitted successfully"});
       });
+    } catch (error) {
+        console.error("Error saving form data:", error);
+        res.status(500).json({
+          message: "Form Submitted failed"
+        });
+    }
 
 })
 
@@ -179,5 +212,7 @@ app.post('/api/phonepe/pay', async (req, res) => {
 
 
 app.listen("3000",() => {
-    console.log("listning on 3000")
+    console.log("listening on 3000")
 })
+
+export default app;
